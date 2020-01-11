@@ -311,4 +311,68 @@ def main():
 	parse_grid('sudoku-original.jpg')
 
 if __name__ == '__main__':
-	main()
+main()
+
+
+''' EXPLANATIONS:
+
+Each pixel is represented by a tuple of 3 representing the Blue-Green-Red (BGR) colour channels (it defaults to BGR, not RGB). Each channel is an integer between 0 and 255, so (0, 0, 0) is pure black and (255, 255, 255) is pure white. 
+If we choose to read the image as greyscale (via cv2.IMREAD_GRAYSCALE), the colour information is lost and each element simply becomes a single integer between 0 and 255, representing the brightness of the pixel.
+
+
+
+1. We need to identify the outer grid. But we make an assumption that the grid is the LARGEST COMPLETE FEATURE present in the image. Then we need to identify the four corners. But to improve the accuracy and consistency of detection, we first try to reduce noises in the image. This also helps in discarding unnecessary details.
+
+	a) BINARY THRESHOLDING: These algorithms reduce an image to pure black and white, based on the contrast. 
+				There are two types of thresholding: (i) Global Thresholding, and (ii) Adaptive Thresholding
+
+				'Global Thresholding' may not be good in all the conditions where image has different lighting conditions in different areas. In that case, 					we go for 'Adaptive Thresholding'. In this, the algorithm calculate the threshold for a small regions of the image. So we get different 				thresholds for different regions of the same image and it gives us better results for images with varying illumination.
+
+				(i) GLOBAL THRESHOLDING: The function used is cv2.threshold. First argument is the source image, which should be a grayscale image. Second 								argument is the threshold value which is used to classify the pixel values. Third argument is the maxVal which 								represents the value to be given if pixel value is more than (sometimes less than) the threshold value. OpenCV 								provides different styles of thresholding and it is decided by the fourth parameter of the function. Different types 								are:
+        						- cv2.THRESH_BINARY	
+        						- cv2.THRESH_BINARY_INV
+        						- cv2.THRESH_TRUNC
+        						- cv2.THRESH_TOZERO
+        						- cv2.THRESH_TOZERO_INV
+
+				(ii) ADAPTIVE THRESHOLDING: Syntax:- cv2.adaptiveThreshold(source, maxVal, adaptiveMethod, thresholdType, blocksize, constant)
+				
+								-> source: Input Image array(Single-channel, 8-bit or floating-point)
+								-> maxVal: Maximum value that can be assigned to a pixel.
+								-> adaptiveMethod: Adaptive method decides how threshold value is calculated.
+
+ 								 i. cv2.ADAPTIVE_THRESH_MEAN_C: Threshold Value = (Mean of the neighbourhood area values – constant value).  								   	    In other words, it is the mean of the blockSize×blockSize neighborhood of a point minus constant.
+
+								 ii. cv2.ADAPTIVE_THRESH_GAUSSIAN_C: Threshold Value = (Gaussian-weighted sum of the neighbourhood values – 									     constant value). In other words, it is a weighted sum of the blockSize×blockSize neighborhood of a 								     point minus constant.
+
+								-> thresholdType: The type of thresholding to be applied.
+								-> blockSize: Size of a pixel neighborhood that is used to calculate a threshold value.
+								-> constant: A constant value that is subtracted from the mean or weighted sum of the neighbourhood pixels.  				
+
+								DOUBT: Why constant is subtracted from threshold value/
+	
+	
+	b) BLURRING: Convolution is simply an element-wise multiplication of two matrices followed by a sum.
+		     Given this knowledge, we can think of an image as a big matrix and kernel or convolutional matrix as a tiny matrix that is used for blurring, 			     sharpening, edge detection, and other image processing functions.
+
+		     Essentially, this tiny kernel sits on top of the big image and slides from left-to-right and top-to-bottom, applying a mathematical operation (i.e., a 			     convolution) at each (x, y)-coordinate of the original image.
+		     
+		     We slide the kernel from left-to-right and top-to-bottom along the original image. At each (x, y)-coordinate of the original image, we stop and examine 			     the neighborhood of pixels located at the center of the image kernel. We then take this neighborhood of pixels, convolve them with the kernel, and 		     obtain a single output value. This output value is then stored in the output image at the same (x, y)-coordinates as the center of the kernel.
+		     
+		     Kernels can be an arbitrary size of M x N pixels, provided that both M and N are odd integers.
+		     We use an odd kernel size to ensure there is a valid integer (x, y)-coordinate at the center of the image.
+		     
+		     	LINK FOR MORE EXAMPLES: https://www.pyimagesearch.com/2016/07/25/convolutions-with-opencv-and-python/
+		     	
+	
+	c) DILATION:  A pixel element is ‘1’ if atleast one pixel under the kernel is ‘1’. So it increases the white region in the image or size of foreground 			      object increases. Normally, in cases like noise removal, erosion is followed by dilation. Because, erosion removes white noises, but it also shrinks 			      our object. So we dilate it. Since noise is gone, they won’t come back, but our object area increases. It is also useful in joining broken parts of an 			      object.
+	
+	DOUBT: Using bitwise not on imgaes - Reason
+	
+2. Contours need to be drawn on the outer edges of the grid detected.
+Contours can be explained simply as a curve joining all the continuous points (along the boundary), having same color or intensity. The contours are a useful tool for shape analysis and object detection and recognition.	
+	
+
+
+
+'''
