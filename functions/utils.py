@@ -205,9 +205,9 @@ def scale_and_centre(img, size, margin=0, background=0):
         w, h = scale(ratio, w), scale(ratio, h)
         t_pad, b_pad = centre_pad(h)
 
-    img = cv2.resize(img, (w, h))
-    img = cv2.copyMakeBorder(img, t_pad, b_pad, l_pad, r_pad, cv2.BORDER_CONSTANT, None, background)
-    return cv2.resize(img, (size, size))
+    # img = cv2.resize(img, (w, h))
+    #img = cv2.copyMakeBorder(img, t_pad, b_pad, l_pad, r_pad, cv2.BORDER_CONSTANT, None, background)
+    return cv2.resize(img, (size,size))
 
 
 def find_largest_feature(inp_img, scan_tl=None, scan_br=None):
@@ -285,7 +285,7 @@ def extract_digit(img, rect, size):
 
     # Ignore any small bounding boxes
     if w > 0 and h > 0 and (w * h) > 100 and len(digit) > 0:
-        return scale_and_centre(digit, size, 4)
+        return  scale_and_centre(digit, size, 4)
     else:
         return np.zeros((size, size), np.uint8)
 
