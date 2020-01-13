@@ -1,5 +1,5 @@
-from utils import *
-from cnn import *
+from .functions.utils import *
+from .functions.cnn import *
 import numpy as np
 
 import keras
@@ -52,9 +52,10 @@ def main():
     for i in range(9):
          print(arr[i][0], arr[i][1], arr[i][2], arr[i][3], arr[i][4], arr[i][5], arr[i][6], arr[i][7], arr[i][8])
 
-
+	
+	#	DEBUGGER FUNCTIONS
     # print(cnn_verdict)
-    # cv2.imwrite('zzz.jpg', cnn_verdict[3][0])
+    # cv2.imwrite('sample_block.jpg', cnn_verdict[3][0])
     # show_verdict(cnn_verdict)
 
 
