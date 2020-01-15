@@ -1,7 +1,7 @@
 import cv2
 import operator
 import numpy as np
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 
 
 def plot_many_images(images, titles, rows=1, columns=2):
@@ -305,13 +305,14 @@ def get_digits(img, squares, size):
 
 
 def get_possible(digits):
-    cnn_verdict = []
-    for digit in digits:
-        if np.count_nonzero(digit) > 50:
-            cnn_verdict.append((digit, 1))
-        else:
-            cnn_verdict.append((digit, 0))
-    return cnn_verdict
+	"""Filter out the cells having some number printed for applying CNN"""
+	cnn_verdict = []
+	for digit in digits:
+		if np.count_nonzero(digit) > 50:
+			cnn_verdict.append((digit, 1))
+		else:
+			cnn_verdict.append((digit, 0))
+	return cnn_verdict
 
 
 def show_matrix(cnn_verdict):

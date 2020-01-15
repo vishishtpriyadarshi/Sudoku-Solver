@@ -3,12 +3,7 @@
 import functions as f
 import numpy as np
 import cv2
-#import keras
-from tensorflow.keras.datasets import mnist
-from tensorflow.keras.layers import Conv2D, Dense, MaxPooling2D, Dropout, Flatten
-from tensorflow.keras.models import Sequential
-from tensorflow.keras import backend as K
-from tensorflow.keras.models import model_from_json
+import os
 
 def generate_matrix(cnn_verdict):
     model = f.get_trained_model()
@@ -36,8 +31,8 @@ def generate_matrix(cnn_verdict):
 
 
 def main():
-
-    path = 'fff.jpg'
+	
+    path = os.path.abspath('./test_images/other-sudoku.jpg')
     original = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     processed = f.pre_process_image(original)
     corners = f.find_corners_of_largest_polygon(processed)
@@ -45,19 +40,20 @@ def main():
     squares = f.infer_grid(cropped)
     digits = f.get_digits(cropped, squares, 28)
 
-    # print(digits[0].shape)
-    # show_digits(digits)
-
     cnn_verdict = f.get_possible(digits)
     arr = generate_matrix(cnn_verdict)
+
+	# This sends to stdout stream which goes back to node backend
     for i in range(9):
          print(arr[i][0], arr[i][1], arr[i][2], arr[i][3], arr[i][4], arr[i][5], arr[i][6], arr[i][7], arr[i][8])
 
 	
-	#	DEBUGGER FUNCTIONS
-    # print(cnn_verdict)
-    # cv2.imwrite('sample_block.jpg', cnn_verdict[3][0])
-    # show_verdict(cnn_verdict)
+    # -----  ----- DEBUGGER FUNCTIONS ----- -------	
+    # 	print(digits[0].shape)
+    #	show_digits(digits)
+    # 	print(cnn_verdict)
+    # 	cv2.imwrite('sample_block.jpg', cnn_verdict[3][0])
+    # 	show_verdict(cnn_verdict)
 
 
 

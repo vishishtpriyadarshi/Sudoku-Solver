@@ -1,13 +1,4 @@
-from tensorflow import keras
-import tensorflow as tf
-from tensorflow.keras.datasets import mnist
-from tensorflow.keras.layers import Conv2D, Dense, MaxPooling2D, Dropout, Flatten
-from tensorflow.keras.models import Sequential
-from tensorflow.keras import backend as K
 from tensorflow.keras.models import model_from_json
-import cv2
-import numpy as np
-from PIL import Image
 
 def get_trained_model():
 
