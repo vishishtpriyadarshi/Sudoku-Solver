@@ -8,7 +8,7 @@ def get_trained_model():
     loaded_model = model_from_json(loaded_model_json)
 
     loaded_model.load_weights("./CNN_Model_Parameters/mnist_model.h5")
-    print("Loaded model from disk")
+    #print("Loaded model from disk")
 
     #print(loaded_model.predict(img.reshape(28,28,1)))
     return loaded_model
