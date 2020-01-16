@@ -4,19 +4,19 @@ import numpy as np
 #from matplotlib import pyplot as plt
 
 
-def plot_many_images(images, titles, rows=1, columns=2):
-    """Plots each image in a given list as a grid structure. using Matplotlib."""
-    for i, image in enumerate(images):
-        plt.subplot(rows, columns, i + 1)
-        plt.imshow(image, 'gray')
-        plt.title(titles[i])
-        plt.xticks([]), plt.yticks([])  # Hide tick marks
-    plt.show()
+# def plot_many_images(images, titles, rows=1, columns=2):
+#     """Plots each image in a given list as a grid structure. using Matplotlib."""
+#     for i, image in enumerate(images):
+#         plt.subplot(rows, columns, i + 1)
+#         plt.imshow(image, 'gray')
+#         plt.title(titles[i])
+#         plt.xticks([]), plt.yticks([])  # Hide tick marks
+#     plt.show()
 
 
 def show_image(img):
     """Shows an image until any key is pressed"""
-    print(img.shape)
+    # print(img.shape)
     cv2.imshow('image', img)  # Display the image
     cv2.waitKey(0)  # Wait for any key to be pressed (with the image window active)
     cv2.destroyAllWindows()  # Close all windows
@@ -28,7 +28,7 @@ def show_digits(digits, colour=255):
     with_border = [cv2.copyMakeBorder(img.copy(), 0, 0, 0, 0, cv2.BORDER_CONSTANT, None, colour) for img in digits]
     for i in range(9):
         row = np.concatenate(with_border[i * 9:((i + 1) * 9)], axis=1)
-        print(row)
+        # print(row)
         rows.append(row)
     show_image(np.concatenate(rows))
 
@@ -308,13 +308,13 @@ def get_possible(digits):
 	"""Filter out the cells having some number printed for applying CNN"""
 	cnn_verdict = []
 	for digit in digits:
-		if np.count_nonzero(digit) > 50:
+		if np.count_nonzero(digit) > 100:
 			cnn_verdict.append((digit, 1))
 		else:
 			cnn_verdict.append((digit, 0))
 	return cnn_verdict
 
 
-def show_matrix(cnn_verdict):
-    for block in cnn_verdict:
-        print(block[1])
+# def show_matrix(cnn_verdict):
+#     for block in cnn_verdict:
+#         print(block[1])

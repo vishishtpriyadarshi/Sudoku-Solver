@@ -1,0 +1,22 @@
+{
+  "name": "sudoku_interface",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js -e hbs,js,py"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-csp-header": "^2.3.2",
+    "hbs": "^4.1.0",
+    "multer": "^1.4.2",
+    "python-shell": "^1.0.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
